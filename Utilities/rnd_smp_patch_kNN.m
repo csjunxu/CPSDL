@@ -58,7 +58,7 @@ for ii = 1:Cim_num
         Cim = Cim(:,randw+1:randw+1000,:);
     end
     imwrite(Cim,['./TrainingImages/Clean_' Cim_dir(ii).name]);
-    C = sample_patches(Cim, patch_size, patch_num, R_thresh);
+    C = sample_patches_kNN(Cim, patch_size, patch_num, R_thresh);
     XCa = [XCa, C];
 end
 
@@ -78,7 +78,7 @@ for ii = 1:Nim_num
         Nim = Nim(:,randw+1:randw+1000,:);
     end
     imwrite(Nim,['./TrainingImages/Noisy_' Nim_dir(ii).name]);
-    N = sample_patches(Nim, patch_size, patch_num, R_thresh);
+    N = sample_patches_kNN(Nim, patch_size, patch_num, R_thresh);
     XN = [XN, N];
     % given noisy patches, search corresponding clean ones via k-NN
     IDX = knnsearch(N', XCa');
@@ -93,5 +93,5 @@ end
 
 % final results
 num_patch = size(XN,2);
-patch_path = ['Data/rnd_patches_' num2str(patch_size) 'x' num2str(patch_size) '_' num2str(num_patch) '_' num2str(R_thresh) '_' datestr(now, 30) '.mat'];
+patch_path = ['Data/rnd_BID_patches_' num2str(patch_size) 'x' num2str(patch_size) '_' num2str(num_patch) '_' num2str(R_thresh) '_' datestr(now, 30) '.mat'];
 save(patch_path, 'XN', 'XC');  
