@@ -3,20 +3,26 @@
 % CopyRight @ Jun Xu 09/17/2016
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear;
-addpath('../DSCDL_BID/Data');
+addpath('Data');
 addpath('Utilities');
-addpath('../DSCDL_BID/SPAMS');
-% addpath('SPAMS/release/mkl64');
+
+task = 'SR';
 
 load Data/params.mat;
-load Data/EMGM_8x8_100_knnNI2BS500Train_20160722T082406.mat;
-% Parameters Setting
+if strcmp(task,'BID') == 1
+    load Data/EMGM_BID_8x8_100_20160917T233957.mat
+elseif strcmp(task,'SR') == 1
+    load Data/EMGM_SR_8x8_100_20160920T201654.mat;
+end
+%% Parameters Setting
+% tunable parameters
 par.rho = 0.05;
 par.lambda1         =       0.01;
 par.lambda2         =       0.001;
 par.mu              =       0.01;
 par.sqrtmu          =       sqrt(par.mu);
 par.nu              =       0.1;
+% fixed parameters
 par.epsilon         =        5e-3;
 par.cls_num            =    cls_num;
 par.step               =    2;
@@ -36,13 +42,12 @@ flag_initial_done = 0;
 paramsname = sprintf('Data/params.mat');
 save(paramsname,'par','param');
 
-load Data/EMGM_8x8_100_20160917T233957.mat;
 for i = 1 : par.cls_num
     XC = double(Xc{i});
     XN = double(Xn{i});
-    XC = XC - repmat(mean(XC), [par.win^2 1]); 
+    XC = XC - repmat(mean(XC), [par.win^2 1]);
     XN = XN - repmat(mean(XN), [par.win^2 1]);
-    fprintf('Coupled Projection and Shared Dictioanry Learning : Cluster: %d\n', i);
+    fprintf('Coupled Projection and Shared Dictioanry Learning (%s): Cluster: %d\n', task, i);
     % Initiatilization
     Pc = eye(size(XC, 1));
     Pn = eye(size(XN, 1));
@@ -54,6 +59,6 @@ for i = 1 : par.cls_num
     Dict.D{i} = D;
     Dict.PC{i} = Pc;
     Dict.PN{i} = Pn;
-    Dict_BID_backup = sprintf('Data/CPSDL_BID_Dict_backup_%s.mat',datestr(now, 30));
+    Dict_BID_backup = sprintf('Data/CPSDL_%s_Dict_backup_%s.mat',task,datestr(now, 30));
     save(Dict_BID_backup,'Dict');
 end
