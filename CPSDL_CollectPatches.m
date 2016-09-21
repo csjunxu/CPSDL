@@ -52,4 +52,4 @@ for c = 1 : cls_num
 end
 clear X1 X2;
 GMM_model = ['Data/EMGM_' task '_' num2str(patch_size) 'x' num2str(patch_size) '_' num2str(cls_num) '_' datestr(now, 30) '.mat'];
-save(GMM_model, 'model', 'Xn','Xc','cls_num');
+save(GMM_model, 'model', 'Xn','Xc','cls_num','task');
