@@ -6,11 +6,11 @@ clear;
 addpath('Data');
 addpath('Utilities');
 
-task = 'SR';
+task = 'BID';
 
 load Data/params.mat;
 if strcmp(task,'BID') == 1
-    load Data/EMGM_BID_8x8_100_20160917T233957.mat
+    load Data/EMGM_BID_8x8_5e5_100_20160922T135738.mat
 elseif strcmp(task,'SR') == 1
     load Data/EMGM_SR_8x8_100_20160920T201654.mat;
 end

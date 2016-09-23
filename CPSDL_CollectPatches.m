@@ -37,7 +37,7 @@ else
     [X1, X2] = rnd_smp_patch_kNN(TrainingNoisy, TrainingClean, patch_size, num_patch1, num_patch2, R_thresh);
 end
 
-run('Param_Setting.m');
+run('CPSDL_Param_Setting.m');
 % load TrainingImages/rnd_patches_8x8_866242_0.05_20160715T232001.mat
 
 [model, cls_idx]  =  emgm(X2, cls_num);
