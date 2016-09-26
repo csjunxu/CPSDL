@@ -19,9 +19,9 @@ if strcmp(task, 'BID') == 1
     TrainingClean = 'TrainingImages/BSDS500Train/'; % kNN
     [X1, X2] = rnd_smp_patch_kNN(TrainingNoisy, TrainingClean, patch_size, num_patch1, num_patch2, R_thresh);
 elseif strcmp(task, 'BSR') == 1
-    TrainingNoisy = 'TrainingImages/ycbcrNoisy/';
+    TrainingNoisy = 'TrainingImages/SRTrain91/';
     % TrainingClean = '../TrainingData/ycbcrDenoised/'; % coupled
-    TrainingClean = 'TrainingImages/BSDS500Train/'; % kNN
+    TrainingClean = 'TrainingImages/SRTrain91/'; % kNN
     [X1, X2] = rnd_smp_patch_kNN(TrainingNoisy, TrainingClean, patch_size, num_patch1, num_patch2, R_thresh);
 elseif strcmp(task, 'SR') == 1
     upscale = 2;

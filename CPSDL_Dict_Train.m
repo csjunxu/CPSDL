@@ -6,11 +6,11 @@ clear;
 addpath('Data');
 addpath('Utilities');
 
-task = 'BID';
+task = 'SR';
 
 load Data/params.mat;
 if strcmp(task,'BID') == 1
-    load Data/EMGM_BID_8x8_5e5_100_20160922T135738.mat
+    load Data/EMGM_BID_8x8_5e5_100_20160922T135738.mat;
 elseif strcmp(task,'SR') == 1
     load Data/EMGM_SR_8x8_100_20160920T201654.mat;
 end
@@ -18,7 +18,7 @@ end
 % tunable parameters
 par.rho = 0.05;
 par.lambda1         =       0.01;
-par.lambda2         =       0.001;
+par.lambda2         =       0.01;
 par.mu              =       0.01;
 par.sqrtmu          =       sqrt(par.mu);
 par.nu              =       0.1;

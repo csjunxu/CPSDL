@@ -50,11 +50,25 @@ for i = 1 : par.cls_num
     Pc    = Dict.PC{i};
     Pn    = Dict.PN{i};
     switch param.Case
+        case -1
+            % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
+            Alphan = mexLasso(Xn, D, param);
+            % no use
+            Alphac = Alphan;
+            % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
+            Xc = D * Alphan;
+        case 0
+            % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
+            Alphan = mexLasso(Pn*Xn, D, param);
+            % no use
+            Alphac = Alphan;
+            % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
+            Xc = D * Alphan;
         case 1
             % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
             Alphan = mexLasso(Pn*Xn, D, param);
             % no use
-            Alphac = Alphan; 
+            Alphac = Alphan;
             % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
             Xc = Pc \ D * Alphan;
         case 2

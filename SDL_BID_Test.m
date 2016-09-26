@@ -4,14 +4,14 @@ addpath('Utilities');
 addpath('SPAMS');
 addpath('GatingNetwork');
 GT_Original_image_dir = 'C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_MeanImage\';
-GT_fpath = fullfile(GT_Original_image_dir, '5dmark3_iso3200*.png');
+GT_fpath = fullfile(GT_Original_image_dir, '*.png');
 TT_Original_image_dir = 'C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_NoisyImage\';
-TT_fpath = fullfile(TT_Original_image_dir, '5dmark3_iso3200*.png');
+TT_fpath = fullfile(TT_Original_image_dir, '*.png');
 GT_im_dir  = dir(GT_fpath);
 TT_im_dir  = dir(TT_fpath);
 im_num = length(TT_im_dir);
 
-method = 'CPSDL';
+method = 'SDL';
 
 load Data/EMGM_BID_8x8_2e5_100_20160917T233957.mat;
 params = 'Data/params.mat';
@@ -19,11 +19,11 @@ load(params,'par','param');
 par.cls_num = 100;
 Dict_SR_backup = 'Data/CPSDL_BID_Dict_backup_20160919T125001.mat';
 load(Dict_SR_backup,'Dict');
-for lambda2 = 0.0005 
+for lambda2 = [0.001 0.0005 0.0001]
     param.lambda2 = lambda2;
-    for lambda = 0.02
+    for lambda = 0.01:0.01:0.1
         param.lambda = lambda;
-        for solver = 2
+        for solver = [-1 0]
             param.Case = solver;
             PSNR = [];
             SSIM = [];
@@ -84,7 +84,7 @@ for lambda2 = 0.0005
             mSSIM = mean(SSIM);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);
-            save(['C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_' method '\' method '_CCNoise_' num2str(lambda) '_'  num2str(lambda2) '_' num2str(solver) '.mat'],'PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+            save(['C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\', method, '_CCNoise_' num2str(lambda) '_'  num2str(lambda2) '_' num2str(solver) '.mat'],'PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
         end
     end
 end
