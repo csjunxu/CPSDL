@@ -59,6 +59,6 @@ for i = 1 : par.cls_num
     Dict.D{i} = D;
     Dict.PC{i} = Pc;
     Dict.PN{i} = Pn;
-    Dict_BID_backup = sprintf('Data/CPSDL_%s_Dict_backup_%s.mat',task,datestr(now, 30));
+    Dict_BID_backup = sprintf('Data/CPSDL_PG_%s_Dict_backup_%s.mat',task,datestr(now, 30));
     save(Dict_BID_backup,'Dict');
 end
