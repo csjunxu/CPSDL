@@ -24,7 +24,7 @@ for lambda2 = 0.0005
     param.lambda2 = lambda2;
     for lambda = 0.02
         param.lambda = lambda;
-        for solver = [1 2 3 4 0 -1]
+        for solver = [2 1 3 4 0 -1]
             param.Case = solver;
             PSNR = [];
             SSIM = [];
@@ -54,21 +54,20 @@ for lambda2 = 0.0005
                     IM_GT_y = IM_GT_ycbcr(:, :, 1);
                 end
                 %%
-                par.nOuterLoop = 1;
-                Continue = true;
-                while Continue
-                    fprintf('Iter: %d \n', par.nOuterLoop);
-                    [IMout_y, par] = CPSDL_PG_RID_Denoising(IMin_y,IM_GT_y,model,Dict,par,param);
-                    % Noise Level Estimation
-                    nSig =NoiseLevel(IMout_y*255,par.win);
-                    fprintf('The noise level is %2.4f.\n',nSig);
-                    if nSig < 0.001 || par.nOuterLoop >= 5
-                        Continue = false;
-                    else
-                        par.nOuterLoop = par.nOuterLoop + 1;
-                        IMin_y = IMout_y;
-                    end
-                end
+                %                 par.nOuterLoop = 1;
+                %                 Continue = true;
+                %                 while Continue
+                %                     fprintf('Iter: %d \n', par.nOuterLoop);
+                [IMout_y, par] = CPSDL_PG_RID_Denoising(IMin_y,IM_GT_y,model,Dict,par,param);
+                %                     % Noise Level Estimation
+                %                     nSig =NoiseLevel(IMout_y*255,par.win);
+                %                     fprintf('The noise level is %2.4f.\n',nSig);
+                %                     if nSig < 0.1 || par.nOuterLoop >= 5
+                %                         Continue = false;
+                %                     else
+                %                         par.nOuterLoop = par.nOuterLoop + 1;
+                %                         IMin_y = IMout_y;
+                %                     end
                 if ch==1
                     IMout = IMout_y;
                 else
@@ -78,6 +77,8 @@ for lambda2 = 0.0005
                     IMout_ycbcr(:, :, 3) = IMin_cr;
                     IMout = ycbcr2rgb(IMout_ycbcr);
                 end
+                fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', csnr( IMout*255, IM_GT*255, 0, 0 ), cal_ssim( IMout*255, IM_GT*255, 0, 0 ));
+                %                 end
                 %% output
                 PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
                 SSIM = [SSIM cal_ssim( IMout*255, IM_GT*255, 0, 0 )];
