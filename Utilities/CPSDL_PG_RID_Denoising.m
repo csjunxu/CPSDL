@@ -81,15 +81,15 @@ for t = 1 : par.nInnerLoop
                 %% Reconstruction
                 Xc = Pc \ D * Alphac;
             case 3
-                if (par.nOuterLoop == 1)
+%                 if (par.nOuterLoop == 1)
                     % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                     Alphan = mexLasso(Pn*Xn, D, param);
                     % min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
                     Xc_temp = Pc \ D * Alphan;
-                else
-                    Alphac = AC(:, idx_cluster);
-                    Xc_temp = D * Alphac;
-                end
+%                 else
+%                     Alphac = AC(:, idx_cluster);
+%                     Xc_temp = D * Alphac;
+%                 end
                 % min_{alpha2} ||P2*y2-D*alpha2||_{2}^{2}+||alpha2||_{1}
                 Alphac = mexLasso(Pc*Xc_temp, D, param);
                 Xn_temp = Pn \ D * Alphac;
@@ -97,15 +97,15 @@ for t = 1 : par.nInnerLoop
                 % Reconstruction
                 Xc = Pc \ D * Alphan;
             case 4
-                if (par.nOuterLoop == 1)
+%                 if (par.nOuterLoop == 1)
                     % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                     Alphan = mexLasso(Pn*Xn, D, param);
                     % min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
                     Xc_temp = Pc \ D * Alphan;
-                else
-                    Alphac = AC(:, idx_cluster);
-                    Xc_temp = D * Alphac;
-                end
+%                 else
+%                     Alphac = AC(:, idx_cluster);
+%                     Xc_temp = D * Alphac;
+%                 end
                 % min_{alpha2} ||P2*y2-D*alpha2||_{2}^{2}+||alpha2||_{1}
                 Alphac = mexLasso(Pc*Xc_temp, D, param);
                 Xn_temp = Pn \ D * Alphac;
