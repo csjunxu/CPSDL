@@ -6,7 +6,7 @@ clear;
 addpath('Data');
 addpath('Utilities');
 
-task = 'SR';
+task = 'BID';
 
 load Data/params.mat;
 if strcmp(task,'BID') == 1
