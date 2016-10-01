@@ -2,7 +2,7 @@ clear;
 addpath('Data');
 addpath('Utilities');
 addpath('SPAMS');
-addpath('GatingNetwork');
+% addpath('GatingNetwork');
 GT_Original_image_dir = 'C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_MeanImage\';
 GT_fpath = fullfile(GT_Original_image_dir, '*.png');
 TT_Original_image_dir = 'C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_NoisyImage\';
@@ -17,14 +17,14 @@ load Data/GMM_PG_8x8_100_20160930T014557.mat;
 params = 'Data/params_gray_PG.mat';
 load(params,'par','param');
 par.cls_num = cls_num;
-par.nInnerLoop = 3;
+par.nInnerLoop = 1;
 Dict_SR_backup = 'Data/CPSDL_PG_BID_Dict_backup_20161001T150514.mat';
 load(Dict_SR_backup,'Dict');
-for lambda2 = 0.0005 
+for lambda2 = 0.0005
     param.lambda2 = lambda2;
     for lambda = 0.02
         param.lambda = lambda;
-        for solver = 2
+        for solver = [1 2 3 4 0 -1]
             param.Case = solver;
             PSNR = [];
             SSIM = [];
@@ -43,19 +43,22 @@ for lambda2 = 0.0005
                 % color or gray image
                 if ch==1
                     IMin_y = IMin;
+                    IM_GT_y = IM_GT;
                 else
                     % change color space, work on illuminance only
                     IMin_ycbcr = rgb2ycbcr(IMin);
                     IMin_y = IMin_ycbcr(:, :, 1);
                     IMin_cb = IMin_ycbcr(:, :, 2);
                     IMin_cr = IMin_ycbcr(:, :, 3);
+                    IM_GT_ycbcr = rgb2ycbcr(IM_GT);
+                    IM_GT_y = IM_GT_ycbcr(:, :, 1);
                 end
                 %%
                 par.nOuterLoop = 1;
                 Continue = true;
                 while Continue
                     fprintf('Iter: %d \n', par.nOuterLoop);
-                    [IMout_y, par] = CPSDL_PG_RID_Denoising(IMin_y,model,Dict,par,param);
+                    [IMout_y, par] = CPSDL_PG_RID_Denoising(IMin_y,IM_GT_y,model,Dict,par,param);
                     % Noise Level Estimation
                     nSig =NoiseLevel(IMout_y*255,par.win);
                     fprintf('The noise level is %2.4f.\n',nSig);
@@ -79,7 +82,7 @@ for lambda2 = 0.0005
                 PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
                 SSIM = [SSIM cal_ssim( IMout*255, IM_GT*255, 0, 0 )];
                 fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(end), SSIM(end));
-                imwrite(IMout, ['C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
+                imwrite(IMout, ['C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' num2str(solver) '_' IMname '.png']);
             end
             mPSNR = mean(PSNR);
             mSSIM = mean(SSIM);

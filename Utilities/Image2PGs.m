@@ -2,7 +2,7 @@ function       [nDCnlX,blk_arr,DC,par] = Image2PGs( im, par)
 % record the non-local patch set and the index of each patch in
 % of seed patches in image
 [h,  w] = size(im);
-par.ps = par.win;
+par.ps = par.patch_size;
 par.maxr = h-par.ps+1;
 par.maxc = w-par.ps+1;
 par.maxrc = par.maxr * par.maxc;
