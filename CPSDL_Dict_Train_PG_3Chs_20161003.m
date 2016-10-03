@@ -8,12 +8,12 @@ addpath('Utilities');
 
 task = 'BID';
 
-load Data/params.mat;
-if strcmp(task,'BID') == 1
-    load ../DSCDL_BID/Data/GMM_PG_10_8x8_64_20160930T171410.mat;
-elseif strcmp(task,'SR') == 1
-    load Data/EMGM_SR_8x8_100_20160920T201654.mat;
-end
+load Data/params_gray_PG.mat;
+% if strcmp(task,'BID') == 1
+%     load ../DSCDL_BID/Data/GMM_PG_3_10_8x8_64_20161003T060541.mat;
+% elseif strcmp(task,'SR') == 1
+%     load Data/EMGM_SR_8x8_100_20160920T201654.mat;
+% end
 % %% Parameters Setting
 % % tunable parameters
 % par.rho = 0.05;
@@ -41,7 +41,10 @@ end
 % flag_initial_done = 0;
 % paramsname = sprintf('Data/params.mat');
 % save(paramsname,'par','param');
-for j = 1:size(model,1)
+for j = 1:3
+    modelname = sprintf('../DSCDL_BID/Data/GMM_PG_%d_10_8x8_64_20161003T094301.mat',j);
+    eval(['load ' modelname]);
+    Dini = cell(size(model,1),par.cls_num);
     for i = 1 : par.cls_num
         XC = double(Xc{j,i});
         XN = double(Xn{j,i});
@@ -59,7 +62,7 @@ for j = 1:size(model,1)
         Dict.D{j,i} = D;
         Dict.PC{j,i} = Pc;
         Dict.PN{j,i} = Pn;
-        Dict_BID_backup = sprintf('Data/CPSDL_PG_3_10_8x8_64_%s_%s.mat',task,datestr(now, 30));
+        Dict_BID_backup = sprintf('Data/CPSDL_PG_3Chs_10_8x8_64_%s_%s.mat',task,datestr(now, 30));
         save(Dict_BID_backup,'Dict');
     end
 end
