@@ -44,7 +44,6 @@ load Data/params_gray_PG.mat;
 for j = 1:3
     modelname = sprintf('../DSCDL_BID/Data/GMM_PG_%d_10_8x8_64_20161003T094301.mat',j);
     eval(['load ' modelname]);
-    Dini = cell(size(model,1),par.cls_num);
     for i = 1 : par.cls_num
         XC = double(Xc{j,i});
         XN = double(Xn{j,i});
@@ -62,7 +61,7 @@ for j = 1:3
         Dict.D{j,i} = D;
         Dict.PC{j,i} = Pc;
         Dict.PN{j,i} = Pn;
-        Dict_BID_backup = sprintf('Data/CPSDL_PG_3Chs_10_8x8_64_%s_%s.mat',task,datestr(now, 30));
-        save(Dict_BID_backup,'Dict');
+        Dict_BID = sprintf('Data/CPSDL_PG_3Chs_10_8x8_64_%s_20161003.mat',task);
+        save(Dict_BID,'Dict');
     end
 end
