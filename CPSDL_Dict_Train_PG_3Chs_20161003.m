@@ -47,8 +47,6 @@ for j = 1:3
     for i = 1 : par.cls_num
         XC = double(Xc{j,i});
         XN = double(Xn{j,i});
-        XC = XC - repmat(mean(XC), [par.win^2 1]);
-        XN = XN - repmat(mean(XN), [par.win^2 1]);
         fprintf('Coupled Projection and Shared Dictioanry Learning (%s): Channel: %d,Cluster: %d\n', task, j, i);
         % Initiatilization
         Pc = eye(size(XC, 1));
