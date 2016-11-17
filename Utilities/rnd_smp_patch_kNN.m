@@ -1,7 +1,7 @@
 function [XN, XC] = rnd_smp_patch_kNN(TrainingNoisy, TrainingClean, patch_size, num_patch_N, num_patch_C, R_thresh)
 warning off;
-Nim_path = fullfile(TrainingNoisy,'*.png');
-Cim_path = fullfile(TrainingClean,'*.png');
+Nim_path = fullfile(TrainingNoisy,'*real.png');
+Cim_path = fullfile(TrainingClean,'*.bmp');
 
 Nim_dir = dir(Nim_path);
 Cim_dir = dir(Cim_path);
@@ -13,7 +13,7 @@ Cim_num = length(Cim_dir);
 nper_img_N = zeros(1, Nim_num);
 for ii = 1:Nim_num
     Nim = im2double(imread(fullfile(TrainingNoisy, Nim_dir(ii).name)));
-    [h,w] = size(Nim);
+    [h,w,ch] = size(Nim);
     if h >= 1000
         randh = randi(h-1000);
         Nim = Nim(randh+1:randh+1000,:,:);
