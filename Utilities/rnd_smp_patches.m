@@ -2,7 +2,7 @@ function X = rnd_smp_patches(Trainingdir, im_dir, im_num, num_patch, par)
 
 % noisy patches per image
 nper_img = zeros(1, im_num);
-for ii = 1:1000%im_num
+for ii = 1:im_num
     im = im2double(imread(fullfile(Trainingdir, im_dir(ii).name)));
     [h,w,ch] = size(im);
     if h > 512
@@ -19,7 +19,7 @@ end
 nper_img = floor(nper_img*num_patch/sum(nper_img));
 % extract noisy PGs
 X = [];
-for ii = 1:1000
+for ii = 1:im_num
     patch_num = nper_img(ii);
     [h,w,ch] = size(IM{ii});
     par.h = h;

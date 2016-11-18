@@ -3,20 +3,20 @@ addpath('Data');
 addpath('Utilities');
 
 % parameters
-num_patch_N = 2000000;
+num_patch_N = 10000;
 cls_num = 100;
 % blind image denoising or super-resolution
 task = 'BID';
 % BID : blind image denoising
 % SR   : super-resolution
-
+load Data/params.mat;
 %%
 if strcmp(task, 'BID') == 1
     TrainingNoisy = '../../Projects/CVPR2016_crosschannel/ccnoise_denoised_part/';
-    Nim_path = fullfile(TrainingNoisy,'*real.png');
-    Nim_dir = dir(Nim_path);
-    Nim_num = length(Nim_dir);
-    XN = rnd_smp_patches(TrainingNoisy, num_patch_N, par);
+    im_path = fullfile(TrainingNoisy,'*real.png');
+    im_dir = dir(im_path);
+    im_num = length(im_dir);
+    XN = rnd_smp_patches(TrainingNoisy, im_dir, im_num, num_patch_N, par);
     num_patch = size(XN,2);
     patch_path = ['Data/CPSDL_RGB_CP_' num2str(par.ps) 'x' num2str(par.ps) '_' num2str(num_patch)  '_' datestr(now, 30) '.mat'];
     save(patch_path, 'XN');
@@ -64,7 +64,7 @@ load ../../CVPR2017/CVPR2017_Guided/PG-GMM_TrainingCode/PGGMM_RGB_6x6_3_win15_nl
 % seg = [0; seq; length(cls_idx)];
 
 %% GMM: full posterior calculation
-nPG = size(XN,2); % number of PGs
+nPG = size(XN,2); 
 PYZ = zeros(model.nmodels,nPG);
 for i = 1:model.nmodels
     sigma = model.covs(:,:,i);
