@@ -3,7 +3,7 @@ addpath('Data');
 addpath('Utilities');
 
 % parameters
-num_patch_N = 10000;
+num_patch_N = 1000000;
 cls_num = 100;
 % blind image denoising or super-resolution
 task = 'BID';
