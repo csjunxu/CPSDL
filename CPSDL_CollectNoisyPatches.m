@@ -18,7 +18,7 @@ if strcmp(task, 'BID') == 1
     im_num = length(im_dir);
     XN = rnd_smp_patches(TrainingNoisy, im_dir, im_num, num_patch_N, par);
     num_patch = size(XN,2);
-    patch_path = ['Data/CPSDL_RGB_CP_' num2str(par.ps) 'x' num2str(par.ps) '_' num2str(num_patch)  '_' datestr(now, 30) '.mat'];
+    patch_path = ['Data/CPSDL_RGB_NP_' num2str(par.ps) 'x' num2str(par.ps) '_' num2str(num_patch)  '_' datestr(now, 30) '.mat'];
     save(patch_path, 'XN');
 elseif strcmp(task, 'BSR') == 1
     TrainingNoisy = 'TrainingImages/SRTrain91/';
