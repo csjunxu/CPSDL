@@ -17,11 +17,10 @@ im_num = length(TT_im_dir);
 
 method = 'CPSDL';
 
-load Data/EMGM_BID_8x8_2e5_100_20160917T233957.mat;
+load Data/CPSDL_PairedPatches_6x6x3_64.mat;
 params = 'Data/params.mat';
 load(params,'par','param');
-par.cls_num = 100;
-Dict_SR_backup = 'Data/CPSDL_BID_Dict_backup_20160919T125001.mat';
+Dict_SR_backup = 'Data/CPSDL_BID_Dict_backup_20161124T064021.mat';
 load(Dict_SR_backup,'Dict');
 for lambda2 = 0.0005 
     param.lambda2 = lambda2;
@@ -43,40 +42,20 @@ for lambda2 = 0.0005
                 IMname = S{1};
                 [h,w,ch] = size(IMin);
                 fprintf('%s: \n',TT_im_dir(i).name);
-                % color or gray image
-                if ch==1
-                    IMin_y = IMin;
-                else
-                    % change color space, work on illuminance only
-                    IMin_ycbcr = rgb2ycbcr(IMin);
-                    IMin_y = IMin_ycbcr(:, :, 1);
-                    IMin_cb = IMin_ycbcr(:, :, 2);
-                    IMin_cr = IMin_ycbcr(:, :, 3);
-                end
-                %%
                 par.nOuterLoop = 1;
                 Continue = true;
                 while Continue
                     fprintf('Iter: %d \n', par.nOuterLoop);
-                    [IMout_y, par] = CPSDL_RID_Denoising(IMin_y,model,Dict,par,param);
+                    [IMout, par] = CPSDL_RGB_RID_Denoising(IMin,model,Dict,par,param);
                     % Noise Level Estimation
-                    nSig =NoiseLevel(IMout_y*255,par.win);
+                    nSig =NoiseLevel(IMout*255,par.win);
                     fprintf('The noise level is %2.4f.\n',nSig);
                     if nSig < 0.001 || par.nOuterLoop >= 10
                         Continue = false;
                     else
                         par.nOuterLoop = par.nOuterLoop + 1;
-                        IMin_y = IMout_y;
+                        IMin = IMout;
                     end
-                end
-                if ch==1
-                    IMout = IMout_y;
-                else
-                    IMout_ycbcr = zeros(size(IMin));
-                    IMout_ycbcr(:, :, 1) = IMout_y;
-                    IMout_ycbcr(:, :, 2) = IMin_cb;
-                    IMout_ycbcr(:, :, 3) = IMin_cr;
-                    IMout = ycbcr2rgb(IMout_ycbcr);
                 end
                 %% output
                 PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
