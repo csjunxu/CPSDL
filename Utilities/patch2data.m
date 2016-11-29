@@ -1,6 +1,6 @@
 function im_pout= patch2data(Y, h,w,ch, b, s)
-im_pout   =  zeros(h,w,ch, 'single');
-im_wei   =  zeros(h,w,ch, 'single');
+im_pout   =  zeros(h,w,ch, 'double');
+im_wei   =  zeros(h,w,ch, 'double');
 k          =   0;
 N       =  h-b+1;
 M       =  w-b+1;
@@ -14,7 +14,7 @@ for l = 1:ch
     for i  = 1:b
         for j  = 1:b
             k    =  k+1;
-            im_pout(r-1+i,c-1+j,l)  =  im_pout(r-1+i,c-1+j,l) + reshape( Y(k,:)', [N M ch]);
+            im_pout(r-1+i,c-1+j,l)  =  im_pout(r-1+i,c-1+j,l) + reshape( Y(k,:)', [N M]);
             im_wei(r-1+i,c-1+j,l)  =  im_wei(r-1+i,c-1+j,l) + 1;
         end
     end

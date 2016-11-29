@@ -12,8 +12,8 @@ function [im_out, par] = CPSDL_RGB_RID_Denoising(Im_in,model,Dict,par,param)
 % Initial the output image as the input IMin
 im_out = Im_in;
 if par.nOuterLoop == 1
-%     psf = fspecial('gaussian', par.ps+2, 2.2);
-%     YH = data2patch(convn(im_out, psf, 'same') - im_out, par);
+    %     psf = fspecial('gaussian', par.ps+2, 2.2);
+    %     YH = data2patch(convn(im_out, psf, 'same') - im_out, par);
     YH = data2patch(im_out, par);
     Num_Patches = size(YH,2);
     AN = zeros(par.K, Num_Patches);
@@ -51,28 +51,32 @@ for i = 1 : par.cls_num
     Pc    = Dict.PC{i};
     Pn    = Dict.PN{i};
     switch param.Case
-        case -1
+        case 0
+            Xc = Xn;
+            Alphan = AN(:, idx_cluster);
+            Alphac = AC(:, idx_cluster);
+        case 1
             % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
             Alphan = mexLasso(Xn, D, param);
             % no use
             Alphac = Alphan;
             % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
             Xc = D * Alphan;
-        case 0
+        case 2
             % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
             Alphan = mexLasso(Pn*Xn, D, param);
             % no use
             Alphac = Alphan;
             % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
             Xc = D * Alphan;
-        case 1
+        case 3
             % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
             Alphan = mexLasso(Pn*Xn, D, param);
             % no use
             Alphac = Alphan;
             % Reconstruction by min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
             Xc = Pc \ D * Alphan;
-        case 2
+        case 4
             % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
             Alphan = mexLasso(Pn*Xn, D, param);
             % min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
@@ -81,7 +85,7 @@ for i = 1 : par.cls_num
             Alphac = mexLasso(Pc*Xc_temp, D, param);
             %% Reconstruction
             Xc = Pc \ D * Alphac;
-        case 3
+        case 5
             if (par.nOuterLoop == 1)
                 % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                 Alphan = mexLasso(Pn*Xn, D, param);
@@ -97,7 +101,7 @@ for i = 1 : par.cls_num
             Alphan = mexLasso(Xn_temp, D,param);
             % Reconstruction
             Xc = Pc \ D * Alphan;
-        case 4
+        case 6
             if (par.nOuterLoop == 1)
                 % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                 Alphan = mexLasso(Pn*Xn, D, param);
@@ -126,4 +130,4 @@ for i = 1 : par.cls_num
 end
 par.AN =  AN;
 par.AC = AC;
-im_out = patch2data(XC+meanX, h, w, 1,par.ps, par.step);
+im_out = patch2data(XC+meanX, h, w, ch, par.ps, par.step);

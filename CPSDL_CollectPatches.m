@@ -4,7 +4,7 @@ addpath('Utilities');
 
 % parameters
 patch_size = 8;
-num_patch1 = 200000;
+ num_patch1 = 200000;
 R_thresh = 0.05;
 cls_num = 100;
 % blind image denoising or super-resolution
