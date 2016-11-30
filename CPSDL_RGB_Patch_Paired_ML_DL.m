@@ -45,17 +45,18 @@ end
 for i = 1 : par.cls_num
     XC = double(Xc{i});
     XN = double(Xn{i});
-    XC = XC - repmat(mean(XC), [par.win^2 1]);
-    XN = XN - repmat(mean(XN), [par.win^2 1]);
+    XC = XC - repmat(mean(XC), [par.ps^2*par.Patch_Channel 1]);
+    XN = XN - repmat(mean(XN), [par.ps^2*par.Patch_Channel 1]);
     fprintf('Coupled Projection and Shared Dictioanry Learning (%s): Cluster: %d\n', task, i);
     % Initiatilization
-    Pc = eye(size(XC, 1));
+    Pc = eye(si ze(XC, 1));
     Pn = eye(size(XN, 1));
     D = mexTrainDL([XN XC], param);
     Alphac = mexLasso(Pc * XC, D, param);
     Alphan = mexLasso(Pn * XN, D, param);
     % Training
-    [D, Pc, Pn] = CPSDL(Alphac, Alphan, XC, XN, D, Pc, Pn, par, param);
+    [D, Pc, Pn, Alphan] = CPSDL(Alphac, Alphan, XC, XN, D, Pc, Pn, par, param);
+    XN = D * Alphan;
     Dict.D{i} = D;
     Dict.PC{i} = Pc;
     Dict.PN{i} = Pn;
