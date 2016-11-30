@@ -59,11 +59,11 @@ for lambda2 = 0.0005
                         IMin = IMout;
                     end
                 end
-                %% output
-                PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
-                SSIM = [SSIM cal_ssim( IMout*255, IM_GT*255, 0, 0 )];
-                fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(end), SSIM(end));
-                imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
+                % calculate the PSNR and SSIM
+                PSNR(par.nOuterLoop,i) =   csnr( IMout*255, IM_GT*255, 0, 0 );
+                SSIM(par.nOuterLoop,i)      =  cal_ssim( IMout*255, IM_GT*255, 0, 0 );
+                fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n',par.nOuterLoop, PSNR(par.nOuterLoop,i),SSIM(par.nOuterLoop,i));
+                %  imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
             end
             mPSNR = mean(PSNR);
             mSSIM = mean(SSIM);
