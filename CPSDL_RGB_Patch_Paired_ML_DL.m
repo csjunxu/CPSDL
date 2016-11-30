@@ -49,7 +49,7 @@ for i = 1 : par.cls_num
     XN = XN - repmat(mean(XN), [par.ps^2*par.Patch_Channel 1]);
     fprintf('Coupled Projection and Shared Dictioanry Learning (%s): Cluster: %d\n', task, i);
     % Initiatilization
-    Pc = eye(si ze(XC, 1));
+    Pc = eye(size(XC, 1));
     Pn = eye(size(XN, 1));
     D = mexTrainDL([XN XC], param);
     Alphac = mexLasso(Pc * XC, D, param);
