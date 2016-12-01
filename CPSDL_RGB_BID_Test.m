@@ -49,7 +49,7 @@ for lambda2 = 0.0005
                     fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n',par.nOuterLoop, csnr( IMout*255, IM_GT*255, 0, 0 ),cal_ssim( IMout*255, IM_GT*255, 0, 0 ));
                     % Noise Level Estimation
                     nSig =NoiseEstimation(IMout*255,par.ps);
-                    fprintf('The noise level is %2.4f.\n',nSig);
+                     fprintf('The noise level is %2.4f.\n',nSig);
                     if nSig < 0.001 || par.nOuterLoop >= 10
                         Continue = false;
                     else
