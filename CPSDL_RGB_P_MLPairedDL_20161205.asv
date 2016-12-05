@@ -41,10 +41,9 @@ param.approx=0;
 flag_initial_done = 0;
 paramsname = sprintf('Data/params.mat');
 save(paramsname,'par','param');
-% Multi-Layer DL
-Layer = 2;
-PSNR = zeros(par.cls_num,Layer+1);
-SSIM = zeros(par.cls_num,Layer+1);
+
+PSNR = zeros(par.cls_num,);
+SSIM = [];
 for i = 1 : par.cls_num
     XC = double(Xc{i});
     XN = double(Xn{i});
@@ -57,8 +56,6 @@ for i = 1 : par.cls_num
     D = mexTrainDL([XN XC], param);
     Alphac = mexLasso(Pc * XC, D, param);
     Alphan = mexLasso(Pn * XN, D, param);
-    PSNR(i ,1) = csnr( XN*255, XC*255, 0, 0 );
-    SSIM(i ,1) = cal_ssim( XN*255, XC*255, 0, 0 );
     % Training
     for L = 1:Layer
         [D, Pc, Pn, Alphac, Alphan] = CPSDL(Alphac, Alphan, XC, XN, D, Pc, Pn, par, param);
@@ -66,8 +63,8 @@ for i = 1 : par.cls_num
         Dict.PC{i,L} = Pc;
         Dict.PN{i,L} = Pn;
         XN = D * Alphan;
-        PSNR(i ,L+1) = csnr( XN*255, XC*255, 0, 0 );
-        SSIM(i ,L+1) = cal_ssim( XN*255, XC*255, 0, 0 );
+        PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
+        SSIM = [SSIM cal_ssim( IMout*255, IM_GT*255, 0, 0 )];
         Dict_BID_backup = sprintf('Data/CPSDL_P_RGB_%s_Dict_%s.mat',task,datestr(now, 30));
         save(Dict_BID_backup,'Dict');
     end
