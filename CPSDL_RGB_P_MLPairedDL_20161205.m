@@ -42,7 +42,7 @@ flag_initial_done = 0;
 paramsname = sprintf('Data/params.mat');
 save(paramsname,'par','param');
 % Multi-Layer DL
-Layer = 3;
+Layer = 2;
 PSNR = zeros(par.cls_num,Layer+1);
 SSIM = zeros(par.cls_num,Layer+1);
 for i = 1 : par.cls_num
