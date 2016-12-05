@@ -15,14 +15,14 @@ im_num = length(TT_im_dir);
 
 method = 'CPSDL';
 
-%load Data/CPSDL_PairedPatches_6x6x3_64.mat;
+load Data/CPSDL_PairedPatches_6x6x3_64.mat;
 params = 'Data/params.mat';
 load(params,'par','param');
 Dict_SR_backup = 'Data/CPSDL_P_RGB_BID_Dict_20161205T203550.mat';
 load(Dict_SR_backup,'Dict');
-for lambda2 = 0.0005
+for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
     param.lambda2 = lambda2;
-    for lambda = 0.02
+    for lambda = [0.01 0.02 0.05 0.1]
         param.lambda = lambda;
         for solver = [1 2 3 4 5 6]
             param.Case = solver;
