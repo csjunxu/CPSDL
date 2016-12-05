@@ -14,7 +14,7 @@
 % CopyRight @ Jun Xu 09/17/2016
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-function [D, P1, P2, Alpha2] = CPSDL(Alpha1, Alpha2, X1, X2, D, P1, P2, par, param)
+function [D, P1, P2, Alpha1, Alpha2] = CPSDL(Alpha1, Alpha2, X1, X2, D, P1, P2, par, param)
 
 f = 0;
 % Iteratively solve P D A
