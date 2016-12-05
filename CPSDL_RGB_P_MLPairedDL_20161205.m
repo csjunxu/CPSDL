@@ -59,6 +59,7 @@ for i = 1 : par.cls_num
     Alphan = mexLasso(Pn * XN, D, param);
     PSNR(i ,1) = csnr( XN*255, XC*255, 0, 0 );
     SSIM(i ,1) = cal_ssim( XN*255, XC*255, 0, 0 );
+    fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(i ,1), SSIM(i ,1) );
     % Training
     for L = 1:Layer
         [D, Pc, Pn, Alphac, Alphan] = CPSDL(Alphac, Alphan, XC, XN, D, Pc, Pn, par, param);
@@ -68,6 +69,7 @@ for i = 1 : par.cls_num
         XN = D * Alphan;
         PSNR(i ,L+1) = csnr( XN*255, XC*255, 0, 0 );
         SSIM(i ,L+1) = cal_ssim( XN*255, XC*255, 0, 0 );
+        fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(i ,L+1), SSIM(i ,L+1) );
         Dict_BID_backup = sprintf('Data/CPSDL_P_RGB_%s_Dict_%s.mat',task,datestr(now, 30));
         save(Dict_BID_backup,'Dict');
     end
