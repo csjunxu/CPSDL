@@ -70,7 +70,7 @@ for i = 1 : par.cls_num
         PSNR(i ,L+1) = csnr( XN*255, XC*255, 0, 0 );
         SSIM(i ,L+1) = cal_ssim( XN*255, XC*255, 0, 0 );
         fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(i ,L+1), SSIM(i ,L+1) );
-        Dict_BID_backup = sprintf('Data/CPSDL_P_RGB_%s_Dict_%s.mat',task,datestr(now, 30));
+        Dict_BID_backup = sprintf('Data/CPSDL_RGB_P_ML_%s_Dict_%s.mat',task,datestr(now, 30));
         save(Dict_BID_backup,'Dict');
     end
 end
