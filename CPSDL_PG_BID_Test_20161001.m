@@ -13,12 +13,12 @@ im_num = length(TT_im_dir);
 
 method = 'CPSDL_PG';
 
-load Data/GMM_PG_8x8_100_20160930T014557.mat;
-params = 'Data/params_gray_PG.mat';
+load Data/GMM_PairedPatches_BID_6x6_65_20161204T082637.mat;
+params = 'Data/params.mat';
 load(params,'par','param');
 par.cls_num = cls_num;
 par.nInnerLoop = 1;
-Dict_SR_backup = 'Data/CPSDL_PG_BID_Dict_backup_20161001T150514.mat';
+Dict_SR_backup = 'Data/CPSDL_RGB_P_ML_BID_Dict_20161207T193534.mat';
 load(Dict_SR_backup,'Dict');
 for lambda2 = [0.0001 0.001 0.01 0.1]
     param.lambda2 = lambda2;
