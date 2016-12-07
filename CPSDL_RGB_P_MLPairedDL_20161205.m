@@ -9,7 +9,7 @@ addpath('Utilities');
 task = 'BID';
 
 if strcmp(task,'BID') == 1
-    load Data/GMM_PairedPatches_BID_6x6_65_20161204T082637.mat;
+    load Data/GMM_RGB_P_BID_6x6_65_20161204T082637.mat;
 elseif strcmp(task,'SR') == 1
     load Data/EMGM_SR_8x8_100_20160920T201654.mat;
 end

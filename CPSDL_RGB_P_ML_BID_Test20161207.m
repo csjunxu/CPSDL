@@ -15,10 +15,10 @@ im_num = length(TT_im_dir);
 
 method = 'CPSDL';
 
-load Data/CPSDL_PairedPatches_6x6x3_64.mat;
+load Data/GMM_RGB_P_BID_6x6_65_20161204T082637.mat;
 params = 'Data/params.mat';
 load(params,'par','param');
-Dict_SR_backup = 'Data/CPSDL_P_RGB_BID_Dict_20161207T102519.mat';
+Dict_SR_backup = 'Data/CPSDL_RGB_P_ML_BID_Dict_20161207T193534.mat';
 load(Dict_SR_backup,'Dict');
 par.nInnerLoop = 2;
 for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
