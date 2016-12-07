@@ -7,8 +7,6 @@ function [im_out, par] = CPSDL_RGB_RID_Denoising(Im_in,model,Dict,par,param)
 % Initial the output image as the input IMin
 im_out = Im_in;
 if par.nOuterLoop == 1
-    %     psf = fspecial('gaussian', par.ps+2, 2.2);
-    %     YH = data2patch(convn(im_out, psf, 'same') - im_out, par);
     YH = data2patch(im_out, par);
     Num_Patches = size(YH,2);
     AN = zeros(par.K, Num_Patches);
