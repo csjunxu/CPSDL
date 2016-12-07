@@ -54,7 +54,7 @@ for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
                     end
                     par.PSNR(par.nOuterLoop,i) = csnr( IMout*255, IM_GT*255, 0, 0 );
                     par.SSIM(par.nOuterLoop,i) = cal_ssim( IMout*255, IM_GT*255, 0, 0 );
-                    fprintf('The %d Iteration: PSNR = %2.4f, SSIM = %2.4f\n', par.nOuterLoop, par.PSNR(par.nOuterLoop,i),par.SSIM(par.nOuterLoop,par.imIndex));
+                    fprintf('The %d Iteration: PSNR = %2.4f, SSIM = %2.4f\n', par.nOuterLoop, par.PSNR(par.nOuterLoop,i),par.SSIM(par.nOuterLoop,i));
                 end
                 %  imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
             end
