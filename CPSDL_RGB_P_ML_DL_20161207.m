@@ -70,7 +70,7 @@ for i = 1 : par.cls_num
         SSIM(i ,L+1) = cal_ssim( XN*255, XC*255, 0, 0 );
         fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(i ,L+1), SSIM(i ,L+1) );
         Dict_BID_backup = sprintf('Data/CPSDL_%s_RGB_P_ML_DL_%s.mat',task,datestr(now, 30));
-        save(Dict_BID_backup,'Dict');
+        save(Dict_BID_backup,'Dict','PSNR','SSIM');
     end
 end
 paramsname = sprintf('Data/params_20161207_1.mat');
