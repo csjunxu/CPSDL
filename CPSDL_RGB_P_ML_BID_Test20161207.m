@@ -20,6 +20,7 @@ params = 'Data/params.mat';
 load(params,'par','param');
 Dict_SR_backup = 'Data/CPSDL_P_RGB_BID_Dict_20161207T102519.mat';
 load(Dict_SR_backup,'Dict');
+par.nInnerLoop = 2;
 for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
     param.lambda2 = lambda2;
     for lambda = [0.01 0.02 0.05 0.1]
@@ -37,34 +38,20 @@ for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
                 S = regexp(TT_im_dir(i).name, '\.', 'split');
                 IMname = S{1};
                 [h,w,ch] = size(IMin);
-                fprintf('%s: \n',TT_im_dir(i).name);
-                par.nOuterLoop = 1;
-                Continue = true;
-                while Continue
-                    fprintf('Iter: %d \n', par.nOuterLoop);
-                    [IMout, par] = CPSDL_RGB_RID_Denoising(IMin,model,Dict,par,param);
-                    % Noise Level Estimation
-                    nSig =NoiseLevel(IMout*255,par.win);
-                    fprintf('The noise level is %2.4f.\n',nSig);
-                    if nSig < 0.001 || par.nOuterLoop >= 10
-                        Continue = false;
-                    else
-                        par.nOuterLoop = par.nOuterLoop + 1;
-                        IMin = IMout;
-                    end
-                    par.PSNR(par.nOuterLoop,i) = csnr( IMout*255, IM_GT*255, 0, 0 );
-                    par.SSIM(par.nOuterLoop,i) = cal_ssim( IMout*255, IM_GT*255, 0, 0 );
-                    fprintf('The %d Iteration: PSNR = %2.4f, SSIM = %2.4f\n', par.nOuterLoop, par.PSNR(par.nOuterLoop,i),par.SSIM(par.nOuterLoop,par.imIndex));
-                end
-                %  imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
+                par.IMindex = i;
+                [IMout, par] = CPSDL_RGB_ML_RID_Denoising(IMin,model,Dict,par,param);
+                par.PSNR(par.nOuterLoop,i) = csnr( IMout*255, IM_GT*255, 0, 0 );
+                par.SSIM(par.nOuterLoop,i) = cal_ssim( IMout*255, IM_GT*255, 0, 0 );
+                fprintf('The %d Iteration: PSNR = %2.4f, SSIM = %2.4f\n', par.nOuterLoop, par.PSNR(par.nOuterLoop,i),par.SSIM(par.nOuterLoop,par.imIndex));
             end
-            PSNR = par.PSNR;
-            SSIM = par.SSIM;
-            mPSNR = mean(par.PSNR,2);
-            mSSIM = mean(par.SSIM,2);
-            mCCPSNR = mean(CCPSNR);
-            mCCSSIM = mean(CCSSIM);
-            save(['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_CCNoise_' num2str(lambda) '_'  num2str(lambda2) '_' num2str(solver) '.mat'],'PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+            %  imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
         end
+        PSNR = par.PSNR;
+        SSIM = par.SSIM;
+        mPSNR = mean(par.PSNR,2);
+        mSSIM = mean(par.SSIM,2);
+        mCCPSNR = mean(CCPSNR);
+        mCCSSIM = mean(CCSSIM);
+        save(['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_CCNoise_' num2str(lambda) '_'  num2str(lambda2) '_' num2str(solver) '.mat'],'PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
     end
 end
