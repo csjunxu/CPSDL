@@ -1,6 +1,6 @@
 function im_pout= patch2data(Y, h,w,ch, b, s)
-im_pout   =  zeros(h,w,ch, 'double');
-im_wei   =  zeros(h,w,ch, 'double');
+im_pout   =  zeros(h,w,ch, 'single');
+im_wei   =  zeros(h,w,ch, 'single');
 k          =   0;
 N       =  h-b+1;
 M       =  w-b+1;
