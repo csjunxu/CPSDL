@@ -47,14 +47,13 @@ for i = 1 : par.cls_num
     % Training
     for L = 1:Layer
         % parameters
-        param.K = par.K;
-        param.iter=300;
         param.lambda = par.lambda1(L);
-        param.L = par.ps^2;
         param.lambda2      =       par.lambda2;
+        param.K = par.K;
+        param.L = par.ps^2;
+        param.iter=300;
         param.mode          = 	    2;       % penalized formulation
         param.approx=0;
-        flag_initial_done = 0;
         % Initiatilization
         Pc = eye(size(XC, 1));
         Pn = eye(size(XN, 1));
