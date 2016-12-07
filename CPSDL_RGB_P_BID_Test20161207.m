@@ -44,7 +44,7 @@ for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
                     fprintf('Iter: %d \n', par.nOuterLoop);
                     [IMout, par] = CPSDL_RGB_RID_Denoising(IMin,model,Dict,par,param);
                     % Noise Level Estimation
-                    nSig =NoiseLevel(IMout*255,par.win);
+                    nSig =NoiseEstimation(IMout*255,par.ps);
                     fprintf('The noise level is %2.4f.\n',nSig);
                     if nSig < 0.001 || par.nOuterLoop >= 10
                         Continue = false;
