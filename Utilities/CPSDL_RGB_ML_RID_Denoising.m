@@ -1,4 +1,4 @@
-function [im_out, par] = CPSDL_RGB_ML_RID_Denoising(Im_in,model,Dict,par,param)
+function [im_out, par] = CPSDL_RGB_ML_RID_Denoising(Im_in,IM_GT,model,Dict,par,param)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % min_{alpha1,alpha2} ||P1*y1 - D*alpha1||_{2}^{2} + ||P2*y2 - D*alpha2||_{2}^{2}
 % + ||P1*y1 - P2*y2||_{2}^{2} + ||alpha1||_{1} + ||alpha2||_{1}
