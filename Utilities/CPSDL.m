@@ -42,7 +42,7 @@ for t = 1 : par.nIter
 
     F1 = P1 * X1 - D * Alpha1;
     F1 = F1(:)'*F1(:) / 2;
-    F2 = par.lambda1 *  norm(Alpha1, 1);    
+    F2 = param.lambda *  norm(Alpha1, 1);    
     F3 = P2 * X2 - P1 * X1; 
     F3 = F3(:)'*F3(:) / 2;
     F4 = par.nu * norm(P1, 'fro');
@@ -50,7 +50,7 @@ for t = 1 : par.nIter
     
     F1 = P2 * X2 - D * Alpha2;
     F1 = F1(:)'*F1(:) / 2;
-    F2 = par.lambda1 *  norm(Alpha2, 1);    
+    F2 = param.lambda *  norm(Alpha2, 1);    
     F3 = P2 * X2 - P1 * X1;
     F3 = F3(:)'*F3(:) / 2;
     F4 = par.nu * norm(P2, 'fro');  %%
