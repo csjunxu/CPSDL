@@ -39,7 +39,7 @@ for lambda2 = [0.0001 0.0005 0.001 0.005 0.01 0.05 0.1]
                 IMname = S{1};
                 [h,w,ch] = size(IMin);
                 par.IMindex = i;
-                [IMout, par] = CPSDL_RGB_ML_RID_Denoising(IMin,IM_GT,model,Dict,par,param);
+                [IMout, par] = CPSDL_RGB_P_ML_RID_Denoising(IMin,IM_GT,model,Dict,par,param);
             end
             %  imwrite(IMout, ['C:\Users\csjunxu\Desktop\ICCV2017\cc_Results\Real_' method '\' method '_'  num2str(lambda) '_'  num2str(lambda2) '_' IMname '.png']);
         end
