@@ -6,7 +6,8 @@ function [im_out, par] = CPSDL_RGB_P_ML_RID_Denoising(Im_in,IM_GT,model,Dict,par
 [h,w,ch] = size(Im_in);
 % Initial the output image as the input IMin
 im_out = Im_in;
-for t = 1 : par.nInnerLoop
+for t = 1 : par.Layer
+    param.lambda = par.lambda(t);
     if mod(t -1,2) == 0
         YH = data2patch(im_out, par);
         Num_Patches = size(YH,2);
