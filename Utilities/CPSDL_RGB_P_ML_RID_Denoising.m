@@ -81,7 +81,7 @@ for t = 1 : par.Layer
                 %% Reconstruction
                 Xc = Pc \ D * Alphac;
             case 5
-                if (par.nOuterLoop == 1)
+                if (t == 1)
                     % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                     Alphan = mexLasso(Pn*Xn, D, param);
                     % min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
@@ -97,7 +97,7 @@ for t = 1 : par.Layer
                 % Reconstruction
                 Xc = Pc \ D * Alphan;
             case 6
-                if (par.nOuterLoop == 1)
+                if (t == 1)
                     % min_{alpha1} ||P1*y1-D*alpha1||_{2}^{2}+||alpha1||_{1}
                     Alphan = mexLasso(Pn*Xn, D, param);
                     % min_{y2} ||P1*D*alpha1-P2*y2||_{2}^{2}
